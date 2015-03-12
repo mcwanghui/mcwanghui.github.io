@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+    
+  <url>
+    <loc>http://xhh.name/2015/03/13/delete-dir-python-java/</loc>
+    <lastmod>2015-03-12T16:57:46.515Z</lastmod>
+    <data>
+        <display>
+        <title>自动删除目录python和java版</title>
+        <pubTime>2015-03-12T16:57:46.515Z</pubTime>
+        
+        <tag>java </tag>
+         
+        <tag>python </tag>
+         
+         
+           
+             
+              <breadCrumb title="scripts" url="http://xhh.name/categories/scripts/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xhh.name/2015/03/13/delete-dir-os-walk/</loc>
+    <lastmod>2015-03-12T16:56:43.265Z</lastmod>
+    <data>
+        <display>
+        <title>自动删除目录os.walk版</title>
+        <pubTime>2015-03-12T16:56:43.265Z</pubTime>
+        
+        <tag>python </tag>
+         
+         
+           
+             
+              <breadCrumb title="scripts" url="http://xhh.name/categories/scripts/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xhh.name/2015/03/13/delete-dot-svn-dir/</loc>
+    <lastmod>2015-03-12T16:56:38.234Z</lastmod>
+    <data>
+        <display>
+        <title>自动删除Subversion库目录里的所有.svn文件夹</title>
+        <pubTime>2015-03-12T16:56:38.234Z</pubTime>
+        
+        <tag>svn </tag>
+         
+        <tag>windows </tag>
+         
+         
+           
+             
+              <breadCrumb title="scripts" url="http://xhh.name/categories/scripts/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xhh.name/2015/03/13/python-set-env/</loc>
+    <lastmod>2015-03-12T16:56:33.906Z</lastmod>
+    <data>
+        <display>
+        <title>python设置windows环境变量</title>
+        <pubTime>2015-03-12T16:56:33.906Z</pubTime>
+        
+        <tag>python </tag>
+         
+        <tag>windows </tag>
+         
+         
+           
+             
+              <breadCrumb title="scripts" url="http://xhh.name/categories/scripts/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xhh.name/2015/03/13/test-github-gitcafe/</loc>
+    <lastmod>2015-03-12T16:56:22.125Z</lastmod>
+    <data>
+        <display>
+        <title>Test Github Gitcafe deploy</title>
+        <pubTime>2015-03-12T16:56:22.125Z</pubTime>
+        
+        <tag>hexo </tag>
+         
+         
+           
+             
+              <breadCrumb title="hexo" url="http://xhh.name/categories/hexo/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://xhh.name/2015/03/13/hello-world/</loc>
+    <lastmod>2015-03-12T16:50:21.062Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2015-03-12T16:50:21.062Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+</urlset>

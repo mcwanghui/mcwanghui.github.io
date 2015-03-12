@@ -1,0 +1,450 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>自动删除目录python和java版 | xhh&#39;s blog</title>
+  <meta name="author" content="mcwanghui">
+  
+  <meta name="description" content="xhh&#39;s blog">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="自动删除目录python和java版"/>
+  <meta property="og:site_name" content="xhh&#39;s blog"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.ico" rel="icon" type="image/x-ico">
+  <link rel="alternate" href="/atom.xml" title="xhh&#39;s blog" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//libs.baidu.com/jquery/1.8.0/jquery.min.js"></script>
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner">
+<div class="alignleft">
+  <h1><a href="/">xhh&#39;s blog</a></h1>
+  <h2><a href="/">never say never</a></h2>
+</div>
+
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+      <li><a href="/about">About</a></li>
+    
+  </ul>
+    
+  <ul class="social">
+    
+      <li><a class="github" href="https://github.com/mcwanghui" title="github">github</a></li>
+    
+      <li><a class="weibo" href="http://weibo.com/mcwanghui" title="weibo">weibo</a></li>
+    
+      <li><a class="rss" href="/atom.xml" title="rss">rss</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>	  
+      
+        <div class="icon"></div>
+        <time datetime="2015-03-12T16:57:46.515Z"><a href="/2015/03/13/delete-dir-python-java/">2015-03-13</a></time>
+      	  
+	  
+      
+  
+    <h1 class="title">自动删除目录python和java版</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        
+          
+<div id="toc" class="toc-article">
+	<strong class="toc-title">文章目录</strong>
+<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Python版"><span class="toc-number">1.</span> <span class="toc-text">Python版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java版"><span class="toc-number">2.</span> <span class="toc-text">Java版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Python生成测试目录"><span class="toc-number">3.</span> <span class="toc-text">Python生成测试目录</span></a></li></ol>
+</div>
+
+        
+
+		<p>今天抽空把删除指定目录用Python写了下，被<code>isdir()</code>坑了半天，递归也一直不太熟，好一会儿才理顺。这么个小脚本，用到os, os.path, sys, shutil四个模块，对于号称简洁的Python我也是醉了。</p>
+<a id="more"></a>
+<h3 id="Python版">Python版</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys, shutil</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_dir</span><span class="params">(parent_dir, deleted_dir)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> listdir(parent_dir):</span><br><span class="line">        abs_dir = join(parent_dir, dir)</span><br><span class="line">        <span class="keyword">if</span> isdir(abs_dir):</span><br><span class="line">            <span class="keyword">if</span> dir == deleted_dir:</span><br><span class="line">                shutil.rmtree(abs_dir, <span class="keyword">True</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                del_dir(abs_dir, deleted_dir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:        </span><br><span class="line">        del_dir(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>用Python写完总感觉不太顺，又用Java写了一遍，顿时酸爽多了，虽然大括号多点。</p>
+<h3 id="Java版">Java版</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeleteDirDemo</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span><br><span class="line">    </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(args[<span class="number">0</span>]);</span><br><span class="line">        deleteDir(file, args[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteDir</span><span class="params">(File file, String dir)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        File[] files = file.listFiles();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;files.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(files[i].isDirectory())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(files[i].toString().endsWith(dir))</span><br><span class="line">                &#123;</span><br><span class="line">                    files[i].delete();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    deleteDir(files[i], dir);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调试过程中重复mkdir创建测试删除的文件夹太麻烦，反过来写了个生成目录的脚本。</p>
+<h3 id="Python生成测试目录">Python生成测试目录</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mk_dir</span><span class="params">(parent_dir, mked_dir)</span>:</span></span><br><span class="line">    abs_dir = join(parent_dir, mked_dir)</span><br><span class="line">    <span class="keyword">if</span> basename(parent_dir) != mked_dir <span class="keyword">and</span> <span class="keyword">not</span> exists(abs_dir):</span><br><span class="line">        mkdir(abs_dir)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> listdir(parent_dir):</span><br><span class="line">        abs_dir = join(parent_dir, dir)</span><br><span class="line">        <span class="keyword">if</span> isdir(abs_dir):</span><br><span class="line">            mk_dir(abs_dir, mked_dir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        parent_dir = sys.argv[<span class="number">1</span>]</span><br><span class="line">        mked_dir = sys.argv[<span class="number">2</span>]</span><br><span class="line">        </span><br><span class="line">        mk_dir(parent_dir, mked_dir)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/scripts/">scripts</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/java/">java</a>, <a href="/tags/python/">python</a>
+  </div>
+
+		<div class="bdsharebuttonbox">
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+<a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+<a href="#" class="bds_bdysc" data-cmd="bdysc" title="分享到百度云收藏"></a>
+<a href="#" class="bds_youdao" data-cmd="youdao" title="分享到有道云笔记"></a>
+<a href="#" class="bds_more" data-cmd="more"></a>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{},"image":{"viewList":["tsina","weixin","douban","qzone","bdysc","youdao"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","weixin","douban","qzone","bdysc","youdao"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+		
+
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+ <nav id="pagination" >
+    
+    
+    <a href="/2015/03/13/delete-dir-os-walk/" class="alignright next" >下一页</a>
+    
+    <div class="clearfix"></div>
+</nav>
+
+<section id="comment">
+
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-thread-key="post-delete-dir-python-java" data-title="自动删除目录python和java版" data-url="http://xhh.name/2015/03/13/delete-dir-python-java/"></div>
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"mcwanghui"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocal == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->  
+
+  
+</section>
+
+
+
+
+  <div id="menu-nav" class="footer-btn quick-nav-close">
+  <a title="目录导航"></a>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    var toc = $('#toc');
+    var nav = $('#menu-nav');
+    var toccopy;
+    var status = true;
+    if ($(window).width() <= 583) {
+      status = false;
+      $('#menu-nav').removeClass("quick-nav-close");
+      $('#menu-nav').addClass("quick-nav-open");
+    }
+    var first = true;
+    var position = toc.position();
+    var wid = toc.width();
+    $(window).scroll(onScroll);
+    $(nav).click(opennav);
+
+    function tocout() {
+      if (first && status) {
+        toccopy = $(toc).clone();
+        $(toccopy).insertAfter(toc);
+        toc.css('float','');
+        toc.css('position','fixed');
+        onResize();
+        toc.css('z-index','99');
+        toc.css('width',wid);
+        $(window).resize(onResize);
+        first = false;
+        toccopy.css('visibility', 'hidden');
+      }
+      
+    }
+
+    function onScroll() {
+      var top = $(window).scrollTop();
+      if(top >= position.top + 30){
+        tocout();
+        $(nav).stop().fadeTo(300, 1); // fade back in
+        $(nav).animate({bottom: "25px"}, { queue: false, duration: 10 });
+      }else{
+        hidNav();
+        $(window).off("resize", onResize);
+        $(nav).stop().fadeTo(300, 0); // fade out
+        $(nav).animate({bottom: "-200px"}, { queue: false, duration: 10 });
+      }
+    }
+
+    function onResize() {
+      var width = $(window).width();
+      var left = $('#sidebar').position().left;
+      if (width > 883){
+        toc.css('top', '88px');
+        toc.css('left', left - 18);
+      } else{
+        var top = $('#nav-top').innerHeight();
+        toc.css('top', top);
+        var fix = $('#main-col').width() - toc.width() - 35;
+        toc.css('left', left + fix);
+        if($(window).scrollTop() >= position.top + 30){
+          $(nav).stop().fadeTo(300, 1); // fade back in
+          $(nav).animate({bottom: "25px"}, { queue: false, duration: 10 });
+        }
+      }
+    }
+
+    function hidNav() {
+      toc.css('position','');
+      toc.css('float','right');
+      $(toccopy).remove();
+      first = true;
+    }
+
+    function opennav() {
+      if (status) {
+        status = false;
+        hidNav();
+        $('#menu-nav').removeClass("quick-nav-close");
+        $('#menu-nav').addClass("quick-nav-open");
+      } else {
+        status = true;
+        tocout();
+        $('#menu-nav').removeClass("quick-nav-open");
+        $('#menu-nav').addClass("quick-nav-close");
+      }
+    }
+  });
+</script>
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="widget search">
+  <form action="//baidu.com/baidu" method="get" accept-charset="utf-8">
+    <input type="search" name="word" results="0" placeholder="搜索">
+    <input type="hidden" name="si" value="xhh.name">
+    <input name=tn type=hidden value="bds">
+	<input name=cl type=hidden value="3">
+	<input name=ct type=hidden value="2097152">
+	<input name=s type=hidden value="on">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/categories/scripts/">scripts</a><small>4</small></li>
+  
+  </ul>
+</div>
+
+
+  
+  <div class="widget tag">
+    <h3 class="title">最新文章</h3>
+      <ul class="entry">
+        
+          <li>
+            <a href="/2015/03/13/delete-dir-python-java/">自动删除目录python和java版</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/13/delete-dir-os-walk/">自动删除目录os.walk版</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/13/delete-dot-svn-dir/">自动删除Subversion库目录里的所有.svn文件夹</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/13/python-set-env/">python设置windows环境变量</a>
+          </li>
+        
+          <li>
+            <a href="/2015/03/13/test-github-gitcafe/">Test Github Gitcafe deploy</a>
+          </li>
+        
+      </ul>
+  </div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/hexo/">hexo</a><small>1</small></li>
+  
+    <li><a href="/tags/java/">java</a><small>1</small></li>
+  
+    <li><a href="/tags/python/">python</a><small>3</small></li>
+  
+    <li><a href="/tags/svn/">svn</a><small>1</small></li>
+  
+    <li><a href="/tags/windows/">windows</a><small>2</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tagcloud">
+  <h3 class="title">标签云</h3>
+  <div class="entry">
+    <a href="/tags/hexo/" style="font-size: 10px;">hexo</a><a href="/tags/java/" style="font-size: 10px;">java</a><a href="/tags/python/" style="font-size: 20px;">python</a><a href="/tags/svn/" style="font-size: 10px;">svn</a><a href="/tags/windows/" style="font-size: 15px;">windows</a>
+  </div>
+</div>
+
+
+  <div class="widget links">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a href="http://zipperary.com/" title="Zippera's Blog" target="_blank">Zippera</a></li>
+</ul>
+</div>
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><section>
+© 2015 <a href="/">xhh</a> | Powered by <a href="http://hexo.io">Hexo</a> | Theme by <a href="https://github.com/mcwanghui/hexo-theme-lightx">Lightx</a>, improved from <a href="https://github.com/zippera/lightum">Lightum</a>, base on <a href="https://github.com/hexojs/hexo-theme-light">Light</a> | Hosted by <a href="https://github.com">Github</a>&&<a href="https://gitcafe.com">Gitcafe</a>
+</section>
+<div class="clearfix"></div>
+</footer>
+  <script src="//libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+<div id="totop" class="footer-btn to-top">
+  <a title="返回顶部"></a>
+</div>
+
+<script type="text/javascript">
+  $(function(){ 
+	// When to show the scroll link
+	// higher number = scroll link appears further down the page   
+	var upperLimit = 800;
+	
+	// Our scroll link element
+	var scrollElem = $('#totop');
+   
+	// Scroll to top speed
+	var scrollSpeed = 500;
+   
+	// Show and hide the scroll to top link based on scroll position   
+	scrollElem.hide();
+	$(window).scroll(function () {            
+		var scrollTop = $(document).scrollTop();       
+		if ( scrollTop > upperLimit ) {
+		  $(scrollElem).stop().fadeTo(300, 1); // fade back in
+		  $(scrollElem).animate({bottom: "58px"}, { queue: false, duration: 10 });
+		} else {
+		  $(scrollElem).stop().fadeTo(300, 0); // fade out
+	      $(scrollElem).animate({bottom: "-200px"}, { queue: false, duration: 10 });
+			
+		}
+	});
+
+	// Scroll to top animation on click
+	$(scrollElem).click(function(){
+	  $('html, body').animate({scrollTop:0}, scrollSpeed);
+	  $(scrollElem).animate({bottom: "-200px"}, { queue: false, duration: 10 });
+	  return false;
+	});
+  });
+</script>
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>
+

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[xhh's blog]]></title>
+  <subtitle><![CDATA[never say never]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://xhh.name/"/>
+  <updated>2015-03-12T16:57:46.515Z</updated>
+  <id>http://xhh.name/</id>
+  
+  <author>
+    <name><![CDATA[mcwanghui]]></name>
+    <email><![CDATA[mcwanghui@gmail.com]]></email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[自动删除目录python和java版]]></title>
+    <link href="http://xhh.name/2015/03/13/delete-dir-python-java/"/>
+    <id>http://xhh.name/2015/03/13/delete-dir-python-java/</id>
+    <published>2015-03-12T16:57:46.515Z</published>
+    <updated>2015-03-12T16:57:46.515Z</updated>
+    <content type="html"><![CDATA[<p>今天抽空把删除指定目录用Python写了下，被<code>isdir()</code>坑了半天，递归也一直不太熟，好一会儿才理顺。这么个小脚本，用到os, os.path, sys, shutil四个模块，对于号称简洁的Python我也是醉了。</p>
+<a id="more"></a>
+<h3 id="Python版">Python版</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys, shutil</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_dir</span><span class="params">(parent_dir, deleted_dir)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> listdir(parent_dir):</span><br><span class="line">        abs_dir = join(parent_dir, dir)</span><br><span class="line">        <span class="keyword">if</span> isdir(abs_dir):</span><br><span class="line">            <span class="keyword">if</span> dir == deleted_dir:</span><br><span class="line">                shutil.rmtree(abs_dir, <span class="keyword">True</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                del_dir(abs_dir, deleted_dir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:        </span><br><span class="line">        del_dir(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>用Python写完总感觉不太顺，又用Java写了一遍，顿时酸爽多了，虽然大括号多点。</p>
+<h3 id="Java版">Java版</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeleteDirDemo</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span><br><span class="line">    </span>&#123;</span><br><span class="line">        File file = <span class="keyword">new</span> File(args[<span class="number">0</span>]);</span><br><span class="line">        deleteDir(file, args[<span class="number">1</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">deleteDir</span><span class="params">(File file, String dir)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        File[] files = file.listFiles();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;files.length; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(files[i].isDirectory())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">if</span>(files[i].toString().endsWith(dir))</span><br><span class="line">                &#123;</span><br><span class="line">                    files[i].delete();</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                &#123;</span><br><span class="line">                    deleteDir(files[i], dir);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调试过程中重复mkdir创建测试删除的文件夹太麻烦，反过来写了个生成目录的脚本。</p>
+<h3 id="Python生成测试目录">Python生成测试目录</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mk_dir</span><span class="params">(parent_dir, mked_dir)</span>:</span></span><br><span class="line">    abs_dir = join(parent_dir, mked_dir)</span><br><span class="line">    <span class="keyword">if</span> basename(parent_dir) != mked_dir <span class="keyword">and</span> <span class="keyword">not</span> exists(abs_dir):</span><br><span class="line">        mkdir(abs_dir)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> dir <span class="keyword">in</span> listdir(parent_dir):</span><br><span class="line">        abs_dir = join(parent_dir, dir)</span><br><span class="line">        <span class="keyword">if</span> isdir(abs_dir):</span><br><span class="line">            mk_dir(abs_dir, mked_dir)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        parent_dir = sys.argv[<span class="number">1</span>]</span><br><span class="line">        mked_dir = sys.argv[<span class="number">2</span>]</span><br><span class="line">        </span><br><span class="line">        mk_dir(parent_dir, mked_dir)</span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[<p>今天抽空把删除指定目录用Python写了下，被<code>isdir()</code>坑了半天，递归也一直不太熟，好一会儿才理顺。这么个小脚本，用到os, os.path, sys, shutil四个模块，对于号称简洁的Python我也是醉了。</p>]]>
+    
+    </summary>
+    
+      <category term="java" scheme="http://xhh.name/tags/java/"/>
+    
+      <category term="python" scheme="http://xhh.name/tags/python/"/>
+    
+      <category term="scripts" scheme="http://xhh.name/categories/scripts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[自动删除目录os.walk版]]></title>
+    <link href="http://xhh.name/2015/03/13/delete-dir-os-walk/"/>
+    <id>http://xhh.name/2015/03/13/delete-dir-os-walk/</id>
+    <published>2015-03-12T16:56:43.265Z</published>
+    <updated>2015-03-12T16:56:43.265Z</updated>
+    <content type="html"><![CDATA[<p>今天看到<a href="http://zipperary.com/2013/08/12/traverse-in-python/" target="_blank" rel="external">这篇</a>,原来自己艺不精技不熟，不知道<code>os.walk()</code>方法直接递归目录不用自己写，把脚本又改进了一下,Python大法就是好。</p>
+<a id="more"></a>
+<h3 id="删除">删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, os.path, sys, shutil</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_dir</span><span class="params">(parent_dir, deleted_dir)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> dir, subdirs, files <span class="keyword">in</span> os.walk(parent_dir):</span><br><span class="line">        <span class="keyword">if</span> deleted_dir <span class="keyword">in</span> subdirs:</span><br><span class="line">            shutil.rmtree(os.path.join(dir, deleted_dir), <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        del_dir(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="生成">生成</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, os.path, sys </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mk_dir</span><span class="params">(parent_dir, mked_dir)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> dir, subdirs, files <span class="keyword">in</span> os.walk(parent_dir):</span><br><span class="line">        <span class="keyword">if</span> mked_dir <span class="keyword">not</span> <span class="keyword">in</span> subdirs <span class="keyword">and</span> os.path.basename(dir) != mked_dir:</span><br><span class="line">            os.mkdir(os.path.join(dir, mked_dir))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        mk_dir(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>还有个<strong>os.path.walk()</strong>方法，不过已经不推荐使用，Python3里已经没这个方法了。</p>
+<h3 id="os-path-walk版删除">os.path.walk版删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, os.path, sys, shutil</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">del_dir</span><span class="params">(deleted_dir, dir, files)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> deleted_dir <span class="keyword">in</span> files <span class="keyword">and</span> \</span><br><span class="line">       os.path.isdir(os.path.join(dir, deleted_dir)):</span><br><span class="line">        shutil.rmtree(os.path.join(dir, deleted_dir), <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'give me the directorys'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">       os.path.walk(sys.argv[<span class="number">1</span>], del_dir, sys.argv[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[<p>今天看到<a href="http://zipperary.com/2013/08/12/traverse-in-python/">这篇</a>,原来自己艺不精技不熟，不知道<code>os.walk()</code>方法直接递归目录不用自己写，把脚本又改进了一下,Python大法就是好。</p>]]>
+    
+    </summary>
+    
+      <category term="python" scheme="http://xhh.name/tags/python/"/>
+    
+      <category term="scripts" scheme="http://xhh.name/categories/scripts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[自动删除Subversion库目录里的所有.svn文件夹]]></title>
+    <link href="http://xhh.name/2015/03/13/delete-dot-svn-dir/"/>
+    <id>http://xhh.name/2015/03/13/delete-dot-svn-dir/</id>
+    <published>2015-03-12T16:56:38.234Z</published>
+    <updated>2015-03-12T16:56:38.234Z</updated>
+    <content type="html"><![CDATA[<p>遗留项目，已经脱离版本控制，旧版Subversion在每个目录里都产生有.svn文件夹，手动搜索再删除太麻烦，学习了一下for命令，挺简单的，切换到相应目录执行下面命令即可。</p>
+<a id="more"></a>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for /R /D %d in (.svn) do rmdir /Q /S %d</span><br></pre></td></tr></table></figure>
+<p>当然可以进一步保存为bat文件，以后使用方便。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@echo off&#10;&#10;:: delete all the specified directories in base directory and sub directory&#10;:: param1: base directory&#10;:: parem2: directory to be deleted&#10;&#10;for /R %1 /D %%d in (%2) do rmdir /Q /S %%d</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>遗留项目，已经脱离版本控制，旧版Subversion在每个目录里都产生有.svn文件夹，手动搜索再删除太麻烦，学习了一下for命令，挺简单的，切换到相应目录执行下面命令即可。</p>]]>
+    
+    </summary>
+    
+      <category term="svn" scheme="http://xhh.name/tags/svn/"/>
+    
+      <category term="windows" scheme="http://xhh.name/tags/windows/"/>
+    
+      <category term="scripts" scheme="http://xhh.name/categories/scripts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[python设置windows环境变量]]></title>
+    <link href="http://xhh.name/2015/03/13/python-set-env/"/>
+    <id>http://xhh.name/2015/03/13/python-set-env/</id>
+    <published>2015-03-12T16:56:33.906Z</published>
+    <updated>2015-03-12T16:56:33.906Z</updated>
+    <content type="html"><![CDATA[<p>每次手动设置环境变量太麻烦，今天发现python自带<code>winreg</code>模块，可以操作windows注册表设置环境变量。平时设置环境变量主要有两个操作：往<code>PATH</code>里添加新路径；设置新的环境变量如<code>JAVA_HOME</code>之类。本来想把两个操作写在一个脚本里，参数多了不好用，就拆成两个，用起来方便。</p>
+<a id="more"></a>
+<h3 id="PATH添加新路径">PATH添加新路径</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span><br><span class="line">Add new directory to "PATH" environment.</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">    env_add_path [new directory] ["user" or "system"]</span><br><span class="line">    "user" to add user path, default;</span><br><span class="line">    "system" to add system path.</span><br><span class="line">"""</span></span><br><span class="line"><span class="keyword">import</span> sys, os</span><br><span class="line"><span class="keyword">from</span> winreg <span class="keyword">import</span> * </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_path</span><span class="params">(new_dir, scope=<span class="string">'user'</span>)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> scope <span class="keyword">in</span> (<span class="string">'user'</span>, <span class="string">'system'</span>)</span><br><span class="line">    <span class="keyword">if</span> scope == <span class="string">'user'</span>:</span><br><span class="line">        key = HKEY_CURRENT_USER</span><br><span class="line">        subkey = <span class="string">'Environment'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        key = HKEY_LOCAL_MACHINE</span><br><span class="line">        subkey = <span class="string">r'SYSTEM\CurrentControlSet\Control\Session Manager\Environment'</span></span><br><span class="line">    </span><br><span class="line">    key_handle = OpenKey(key, subkey, <span class="number">0</span>, KEY_ALL_ACCESS)</span><br><span class="line">    path, data_type = QueryValueEx(key_handle, <span class="string">'path'</span>)</span><br><span class="line">    <span class="keyword">if</span> path.lower().find(new_dir.lower()) != -<span class="number">1</span>:</span><br><span class="line">        print(<span class="string">'"%s" already exists in path!'</span> % new_dir)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        path = os.pathsep.join(path.split(os.pathsep) + [new_dir])</span><br><span class="line">        SetValueEx(key_handle, <span class="string">'path'</span>, <span class="number">0</span>, data_type, path)</span><br><span class="line">    key_handle.Close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    len_argv = len(sys.argv)</span><br><span class="line">    <span class="keyword">if</span> len_argv <span class="keyword">in</span> [<span class="number">2</span>, <span class="number">3</span>]:</span><br><span class="line">        <span class="keyword">if</span> len_argv == <span class="number">2</span>:</span><br><span class="line">            add_path(sys.argv[<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            add_path(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(__doc__)</span><br></pre></td></tr></table></figure>
+<h3 id="设置环境变量">设置环境变量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span><br><span class="line">Set environment, e.g. "JAVA_HOME".</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">    env_set [name] [value] ["user" or "system"]</span><br><span class="line">    "user" to add user path, default;</span><br><span class="line">    "system" to add system path.</span><br><span class="line">"""</span></span><br><span class="line"><span class="keyword">import</span> sys, os</span><br><span class="line"><span class="keyword">from</span> winreg <span class="keyword">import</span> * </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">set_env</span><span class="params">(name, value, scope=<span class="string">'user'</span>)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span> scope <span class="keyword">in</span> (<span class="string">'user'</span>, <span class="string">'system'</span>)</span><br><span class="line">    <span class="keyword">if</span> scope == <span class="string">'user'</span>:</span><br><span class="line">        key = HKEY_CURRENT_USER</span><br><span class="line">        subkey = <span class="string">'Environment'</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        key = HKEY_LOCAL_MACHINE</span><br><span class="line">        subkey = <span class="string">r'SYSTEM\CurrentControlSet\Control\Session Manager\Environment'</span></span><br><span class="line">    </span><br><span class="line">    key_handle = OpenKey(key, subkey, <span class="number">0</span>, KEY_ALL_ACCESS)</span><br><span class="line">    SetValueEx(key_handle, name, <span class="number">0</span>, REG_EXPAND_SZ, value)</span><br><span class="line">    key_handle.Close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    len_argv = len(sys.argv)</span><br><span class="line">    <span class="keyword">if</span> len_argv <span class="keyword">in</span> [<span class="number">3</span>, <span class="number">4</span>]:</span><br><span class="line">        <span class="keyword">if</span> len_argv == <span class="number">3</span>:</span><br><span class="line">            set_env(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            set_env(sys.argv[<span class="number">1</span>], sys.argv[<span class="number">2</span>], sys.argv[<span class="number">3</span>])</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(__doc__)</span><br></pre></td></tr></table></figure>
+<p>PS: <code>os.environ</code>和<code>os.getenv</code>得到的<code>PATH</code>用户和系统的连在一起，<code>os.environ</code>和<code>os.putenv</code>设置环境变量不起作用，不知道都什么原因？</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>每次手动设置环境变量太麻烦，今天发现python自带<code>winreg</code>模块，可以操作windows注册表设置环境变量。平时设置环境变量主要有两个操作：往<code>PATH</code>里添加新路径；设置新的环境变量如<code>JAVA_HOME</code>之类。本来想把两个操作写在一个脚本里，参数多了不好用，就拆成两个，用起来方便。</p>]]>
+    
+    </summary>
+    
+      <category term="python" scheme="http://xhh.name/tags/python/"/>
+    
+      <category term="windows" scheme="http://xhh.name/tags/windows/"/>
+    
+      <category term="scripts" scheme="http://xhh.name/categories/scripts/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Test Github Gitcafe deploy]]></title>
+    <link href="http://xhh.name/2015/03/13/test-github-gitcafe/"/>
+    <id>http://xhh.name/2015/03/13/test-github-gitcafe/</id>
+    <published>2015-03-12T16:56:22.125Z</published>
+    <updated>2015-03-12T16:56:22.125Z</updated>
+    <content type="html"><![CDATA[<p>test hexo deploy to github and gitcafe at the same time.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>test hexo deploy to github and gitcafe at the same time.</p>
+]]>
+    </summary>
+    
+      <category term="hexo" scheme="http://xhh.name/tags/hexo/"/>
+    
+      <category term="hexo" scheme="http://xhh.name/categories/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <link href="http://xhh.name/2015/03/13/hello-world/"/>
+    <id>http://xhh.name/2015/03/13/hello-world/</id>
+    <published>2015-03-12T16:50:21.062Z</published>
+    <updated>2015-03-12T16:50:21.062Z</updated>
+    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io]]>
+    </summary>
+    
+  </entry>
+  
+</feed>
